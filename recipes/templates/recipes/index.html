@@ -1,0 +1,55 @@
+{% extends "recipes/wrapper.html" %}
+{% block content %}
+{% load static %}
+<ul class="blog-zone">
+    <li>
+        <div class="blog-icon">
+            <i class="fa fa-utensils"></i>
+        </div>
+        <div class="blog-box">
+            <img src="{% static 'recipes/images/blog-1.jpg' %}" alt="">
+
+            <div class="blog-post-body clearfix">
+                <a href="blog-single.html">
+                    <h2>Ricebean black-eyed pea</h2>
+                </a>
+                <div class="blog-post-tag">
+                    <div class="block">
+                        <i class="fa fa-clock-o"></i>
+                        <p>12 Jan,2014</p>
+                    </div>
+                    <div class="block">
+                        <i class="fa fa-user"></i>
+                        <p>Admin</p>
+                    </div>
+                    <div class="block">
+                        <i class="fa fa-tags"></i>
+                        <p>
+                            <a href="">Food Culture</a>,
+                            <a href="">Green Items</a>
+                        </p>
+                    </div>
+                    <div class="block">
+                        <i class="fa fa-comments"></i>
+                        <p>3 Comments</p>
+                    </div>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, nostrum inventore debitis accusantium natus praesentium enim sequi culpa provident dignissimos veniam deserunt voluptatibus fugit delectus pariatur numquam optio quidem illo. Obcaecati, placeat, enim accusantium sunt inventore sed dolorum molestiae ab consequuntur voluptatem dolor necessitatibus reprehenderit adipisci explicabo hic quibusdam pariatur!</p>
+                <a href="blog-single.html" class="btn btn-default btn-transparent pull-right" role="button">
+                    <span>Read More</span>
+                </a>
+            </div>
+        </div>	<!-- End of /.blog-box -->
+    </li>
+</ul>	<!-- End of /.blog-zone -->
+
+<!-- Pagination -->
+ <ul class="pagination pull-right">
+    <li class="disabled"><a href="#">&laquo;</a></li>
+    <li class="active"><a href="#">1 <span class="sr-only"></span></a></li>
+    <li><a href="#">2</a></li>
+    <li><a href="#">3</a></li>
+    <li><a href="#">4</a></li>
+    <li><a href="#">»</a></li>
+</ul>	<!-- End of /.pagination -->
+{% endblock %}

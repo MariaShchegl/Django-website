@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Food Code Proudly Presents By Themexpert</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+	<!-- Fonts -->
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700' rel='stylesheet' type='text/css'>
+
+	<!-- Css -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nivoslider/3.2/nivo-slider.css" integrity="sha512-3qYZBBFvlamXDDKmW5p0yWWXLYKkbryU2zY1aG/XgrHTu/lzICcnkPMdameqa/x2WgTrxXHuHW6lWUTdAXjgww==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css" integrity="sha512-X/RSQYxFb/tvuz6aNRTfKXDnQzmnzoawgEQ4X8nZNftzs8KFFH23p/BA6D2k0QCM4R0sY1DEy9MIY9b3fwi+bg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+	{% load static %}
+	<link rel="stylesheet" href="{% static 'recipes/css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'recipes/css/responsive.css' %}">
+
+</head>
+<body>
+
+
+<!-- TOP HEADER Start
+    ================================================== -->
+
+	<section id="top">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-7"></div>
+				<div class="col-md-3 clearfix">
+					<ul class="login-cart">
+						<li>
+							<a data-toggle="modal" data-target="#modalLogin" href="#">
+							<i class="fa fa-right-to-bracket"></i>
+								Login
+							</a>
+						</li>
+						<li>
+							<a data-toggle="modal" data-target="#modalRegister" href="#">
+							<i class="fa fa-user-plus"></i>
+								Register
+							</a>
+						</li>
+					</ul>
+				</div>
+				<div class="col-md-2">
+					<div class="search-box">
+						<div class="input-group">
+					    	<input placeholder="Search Here" type="text" class="form-control">
+					      	<span class="input-group-btn">
+					        	<button class="btn btn-default" type="button"></button>
+					      	</span>
+					    </div><!-- /.input-group -->
+					</div><!-- /.search-box -->
+				</div>
+			</div> <!-- End Of /.row -->
+		</div>	<!-- End Of /.Container -->
+
+
+	<!-- MODAL Start
+    	================================================== -->
+
+		<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		    		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" id="modalLoginLabel">Introduce Yourself</h4>
+		      		</div>
+			      	<div class="modal-body clearfix">
+			      		<form action="" method="post" id="login_form" class="std">
+							{% csrf_token %}
+							<fieldset>
+								<h3>Already registered?</h3>
+								<div class="form_content clearfix">
+									<p class="text">
+									<label for="email">E-mail address</label>
+										<span><input placeholder="E-mail address" type="text" id="email" name="email" value="" class="account_input"></span>
+									</p>
+									<p class="text">
+									<label for="passwd">Password</label>
+										<span><input placeholder="Password" type="password" id="passwd" name="passwd" value="" class="account_input"></span>
+									</p>
+									<p class="lost_password">
+										<a href="#popab-password-reset" class="popab-password-link">Forgot your password?</a>
+									</p>
+									<p class="submit">
+										<button class="btn btn-success">Log in</button>
+									</p>
+								</div>
+							</fieldset>
+						</form>
+			      	</div>
+			      	<div class="modal-footer">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      	</div>
+		    	</div>
+		  	</div>
+		</div>
+
+		<div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="modalRegisterLabel" aria-hidden="true">
+			<div class="modal-dialog">
+		    	<div class="modal-content">
+		    		<div class="modal-header">
+		        		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		        		<h4 class="modal-title" id="modalRegisterLabel">Introduce Yourself</h4>
+		      		</div>
+			      	<div class="modal-body clearfix">
+
+						<form action="#" method="post" id="create-account_form" class="std">
+							{% csrf_token %}
+							<fieldset>
+								<h3>Create your account</h3>
+								<div class="form_content clearfix">
+									<h4>Enter your e-mail address to create an account.</h4>
+									<p class="text">
+										<label for="email_create">E-mail address</label>
+										<span>
+											<input placeholder="E-mail address"  type="text" id="email_create" name="email_create" value="" class="account_input">
+					                    </span>
+									</p>
+									<p class="text">
+									<label for="passwd">Password</label>
+										<span><input placeholder="Password" type="password" id="passwd" name="passwd" value="" class="account_input"></span>
+									</p>
+									<p class="text">
+									<label for="passwd">Repeat password</label>
+										<span><input placeholder="Repeat password" type="password" id="passwd_repeat" name="passwd_repeat" value="" class="account_input"></span>
+									</p>
+									<p class="submit">
+										<button class="btn btn-primary">Create Your Account</button>
+									</p>
+								</div>
+							</fieldset>
+						</form>
+			      	</div>
+			      	<div class="modal-footer">
+			        	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      	</div>
+		    	</div>
+		  	</div>
+		</div>
+	</section>  <!-- End of /Section -->
+
+
+
+	<!-- LOGO Start
+    ================================================== -->
+
+	<header>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<a href="#">
+						<img src="{% static 'recipes/images/logo.png' %}" alt="logo">
+					</a>
+				</div>	<!-- End of /.col-md-12 -->
+			</div>	<!-- End of /.row -->
+		</div>	<!-- End of /.container -->
+	</header> <!-- End of /Header -->
+
+
+	<section id="blog">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-9 clearfix">
+					{% block content %}
+
+					{% endblock %}
+				</div>	<!-- End of /.col-md-9 -->
+
+				<div class="col-md-3">
+					<div class="blog-sidebar">
+						<div class="block">
+							<h4>Catagories</h4>
+							<div class="list-group">
+								{% for category in categories %}
+								<a href="#" class="list-group-item">
+									<i class="fa  fa-dot-circle-o"></i>
+									Italian Foods
+								</a>
+								{% endfor %}
+							</div>
+						</div>	<!-- End of /.block -->
+						<div class="block">
+							<h4>Popular Posts</h4>
+							<ul class="media-list">
+								{% for post in popPosts %}
+							 	<li class="media">
+							    	<a class="pull-left" href="#">
+							      		<img class="media-object" src="{% static 'recipes/images/post-img.png' %}" alt="...">
+							    	</a>
+							    	<div class="media-body">
+							      		<a href="" class="media-heading">
+							      			Lorem ipsum dolor</a>
+							    	  	<p>January 10,2014</p>
+							    	</div>
+							  	</li>	<!-- End of /.media -->
+							  	{% endfor %}
+							</ul>	<!-- End of /.media-list -->
+						</div>	<!-- End of /.block -->
+
+					</div>	<!-- End of /.blog-sidebar -->
+				</div>	<!-- End of /.col-md-3 -->
+			</div>	<!-- End of /.row -->
+		</div>	<!-- End of /.container -->
+	</section>	<!-- End of /#Blog -->
+
+
+
+
+
+
+
+
+<!-- FOOTER Start
+    ================================================== -->
+
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="block clearfix">
+						<a href="#">
+							<img src="{% static 'recipes/images/footer-logo.png' %}" alt="">
+						</a>
+						<p>
+							Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s
+						</p>
+						<h4 class="connect-heading">CONNECT WITH US</h4>
+						<ul class="social-icon">
+							<li>
+								<a class="facebook-icon" href="#">
+									<i class="fa fa-facebook"></i>
+								</a>
+							</li>
+							<li>
+								<a class="plus-icon" href="#">
+									<i class="fa fa-google-plus"></i>
+								</a>
+							</li>
+							<li>
+								<a class="twitter-icon" href="#">
+									<i class="fa fa-twitter"></i>
+								</a>
+							</li>
+							<li>
+								<a class="pinterest-icon" href="#">
+									<i class="fa fa-pinterest"></i>
+								</a>
+							</li>
+							<li>
+								<a class="linkedin-icon" href="#">
+									<i class="fa fa-linkedin"></i>
+								</a>
+							</li>
+						</ul>	<!-- End Of /.social-icon -->
+					</div>	<!-- End Of /.block -->
+				</div> <!-- End Of /.Col-md-4 -->
+				<div class="col-md-4">
+				</div> <!-- End Of Col-md-4 -->
+				<div class="col-md-4">
+				</div> <!-- End Of Col-md-4 -->
+			</div> <!-- End Of /.row -->
+		</div> <!-- End Of /.Container -->
+
+
+
+	<!-- FOOTER-BOTTOM Start
+    ================================================== -->
+
+		<div class="footer-bottom">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<p class="copyright-text pull-right">Food Code @2013 Designed by <a href="http://www.themexpert.com">Themexpert</a> All Rights Reserved</p>
+					</div>	<!-- End Of /.col-md-12 -->
+				</div>	<!-- End Of /.row -->
+			</div>	<!-- End Of /.container -->
+		</div>	<!-- End Of /.footer-bottom -->
+	</footer> <!-- End Of Footer -->
+
+	<a id="back-top" href="#"></a>
+
+    <!-- jS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" integrity="sha512-jGR1T3dQerLCSm/IGEGbndPwzszJBlKQ5Br9vuB0Pw2iyxOy+7AK+lJcCC8eaXyz/9du+bkCy4HXxByhxkHf+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nivoslider/3.2/jquery.nivo.slider.min.js" integrity="sha512-rwjQKesPaeXWoFNcTVz8rPBqsU06+JhcsudIQfpUiOhxGHqymn9aSJpG7NPu4MZJ7V32Cq4YjT1qV5vVngYA1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js" integrity="sha512-9CWGXFSJ+/X0LWzSRCZFsOPhSfm6jbnL+Mpqo0o8Ke2SYr8rCTqb4/wGm+9n13HtDE1NQpAEOrMecDZw4FXQGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.5.1/jquery.nicescroll.min.js" integrity="sha512-/iJAncx8oaP3q88XbOqC/6c0/5yCp84GDl45SDtBzcue2gFlVmGl1wVUAro23F3h40taFcL+OL6CZywnDSCdsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.2.0/jquery.scrollUp.min.js" integrity="sha512-2+pgrvOTcp+zHiLfZFyuqWu0BXzNBGMesjZnznKaXu3PVgUXUpcjTj/Ex8j3S4rl45eIBK3KP56jgowLMh6nKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="{% static 'recipes/js/main.js' %}" type="text/javascript"></script>
+	<script src="https://kit.fontawesome.com/ddf986bc5c.js" crossorigin="anonymous"></script>
+</body>
+</html>
