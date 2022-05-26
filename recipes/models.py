@@ -17,17 +17,15 @@ class TextFieldImpl(models.TextField):
         return name, path, args, kwargs
 
 class User(models.Model):
-    login = models.CharField(max_length=30)
+    login = models.CharField(max_length=30, unique=True)
     password = models.CharField(max_length=128)
-    email = models.CharField(max_length=30)
+    email = models.CharField(max_length=30, unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     def __str__(self):
         return self.login
 
 class Image(models.Model):
     pathImage = models.ImageField()
-    def __str__(self):
-        return self.pathImage
 
 class Recipe(models.Model):
     title = models.CharField(max_length=50)
@@ -45,8 +43,8 @@ class Recipe(models.Model):
 
 class Category(models.Model):
     title = models.CharField(max_length=30)
-    alias = models.CharField(max_length=30)
-    recipe = models.ManyToManyField(Recipe)
+    alias = models.CharField(max_length=30, unique=True)
+    recipe = models.ManyToManyField(Recipe, null=True, blank=True)
     def __str__(self):
         return self.title
     class Meta:
