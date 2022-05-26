@@ -3,6 +3,6 @@ from .models import *
 
 # Register your models here.
 
-@admin.register(User, Category, Recipe, Comment, Image)
+@admin.register(Category, Recipe, Comment, Image)
 class author_admin(admin.ModelAdmin):
     pass

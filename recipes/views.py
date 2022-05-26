@@ -27,5 +27,5 @@ def login(request):
 
 # Register user
 # POST
-def register(request):
+def signup(request):
     pass

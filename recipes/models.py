@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -15,14 +16,6 @@ class TextFieldImpl(models.TextField):
         name, path, args, kwargs = super().deconstruct()
 
         return name, path, args, kwargs
-
-class User(models.Model):
-    login = models.CharField(max_length=30, unique=True)
-    password = models.CharField(max_length=128)
-    email = models.CharField(max_length=30, unique=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return self.login
 
 class Image(models.Model):
     pathImage = models.ImageField()

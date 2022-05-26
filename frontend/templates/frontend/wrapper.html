@@ -69,7 +69,7 @@
 		        		<h4 class="modal-title" id="modalLoginLabel">Авторизация</h4>
 		      		</div>
 			      	<div class="modal-body clearfix">
-			      		<form action="" method="post" id="login_form" class="std">
+			      		<form action="{% url 'backend:login' %}" method="post" id="login_form" class="std">
 							{% csrf_token %}
 							<fieldset>
 								<div class="form_content clearfix">
@@ -104,7 +104,7 @@
 		      		</div>
 			      	<div class="modal-body clearfix">
 
-						<form action="#" method="post" id="create-account_form" class="std">
+						<form action="{% url 'backend:signup' %}'" method="post" id="create-account_form" class="std">
 							{% csrf_token %}
 							<fieldset>
 								<div class="form_content clearfix">
