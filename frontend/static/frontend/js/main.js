@@ -1,19 +1,4 @@
 $(document).ready(function() {
-	 // Owl carousel code
-	$('#slider').nivoSlider();
-	
-	$("#owl-example").owlCarousel({
-	  	autoPlay : true
-	});
-
-	// Dropdown Visibility on hover
-	$('li.dropdown').on('mouseover', function(){
-	  		$(this).addClass('open');
-	})
-
-	.on('mouseout', function(){
-		$(this).removeClass('open');
-	});
 
 	$("html").niceScroll({
 		cursorcolor : "#90c322",
@@ -46,5 +31,9 @@ $(document).ready(function() {
 		e.preventDefault()
 		$(this).tab('show')
 	})
-
 });
+
+function ValidateEmail(inputText) {
+	var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+	return inputText.match(mailformat)
+}

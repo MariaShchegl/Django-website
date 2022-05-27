@@ -11,7 +11,6 @@
 
 	<!-- Css -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nivoslider/3.2/nivo-slider.css" integrity="sha512-3qYZBBFvlamXDDKmW5p0yWWXLYKkbryU2zY1aG/XgrHTu/lzICcnkPMdameqa/x2WgTrxXHuHW6lWUTdAXjgww==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css" integrity="sha512-X/RSQYxFb/tvuz6aNRTfKXDnQzmnzoawgEQ4X8nZNftzs8KFFH23p/BA6D2k0QCM4R0sY1DEy9MIY9b3fwi+bg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
 	{% load static %}
 	<link rel="stylesheet" href="{% static 'frontend/css/style.css' %}">
@@ -27,9 +26,23 @@
 	<section id="top">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-7"></div>
-				<div class="col-md-3 clearfix">
-					<ul class="login-cart">
+				<div class="col-md-6"></div>
+				<div class="col-md-6 clearfix">
+					<ul class="login-cart pull-right">
+						{% if user.is_authenticated %}
+						<li>
+							<a href="#">
+							<i class="fa fa-user"></i>
+	 	 						Личный кабинет
+							</a>
+						</li>
+						<li>
+							<a href="{% url 'backend:logout' %}">
+							<i class="fa fa-right-to-bracket"></i>
+								Выход
+							</a>
+						</li>
+						{% else %}
 						<li>
 							<a data-toggle="modal" data-target="#modalLogin" href="#">
 							<i class="fa fa-right-to-bracket"></i>
@@ -42,17 +55,8 @@
 								Регистрация
 							</a>
 						</li>
+						{% endif %}
 					</ul>
-				</div>
-				<div class="col-md-2">
-					<div class="search-box">
-						<div class="input-group">
-					    	<input placeholder="Поиск..." type="text" class="form-control">
-					      	<span class="input-group-btn">
-					        	<button class="btn btn-default" type="button"></button>
-					      	</span>
-					    </div><!-- /.input-group -->
-					</div><!-- /.search-box -->
 				</div>
 			</div> <!-- End Of /.row -->
 		</div>	<!-- End Of /.Container -->
@@ -61,6 +65,7 @@
 	<!-- MODAL Start
     	================================================== -->
 
+		{% if not user.is_authenticated %}
 		<div class="modal fade" id="modalLogin" tabindex="-1" role="dialog" aria-labelledby="modalLoginLabel" aria-hidden="true">
 			<div class="modal-dialog">
 		    	<div class="modal-content">
@@ -74,12 +79,10 @@
 							<fieldset>
 								<div class="form_content clearfix">
 									<p class="text">
-									<label for="email">E-mail или логин</label>
-										<span><input placeholder="E-mail или логин" type="text" id="email" name="email" value="" class="account_input"></span>
+										<span>{{form.username}}</span>
 									</p>
 									<p class="text">
-									<label for="passwd">Пароль</label>
-										<span><input placeholder="Пароль" type="password" id="passwd" name="passwd" value="" class="account_input"></span>
+										<span>{{form.password}}</span>
 									</p>
 									<p class="submit">
 										<button class="btn btn-success">Войти</button>
@@ -104,29 +107,21 @@
 		      		</div>
 			      	<div class="modal-body clearfix">
 
-						<form action="{% url 'backend:signup' %}'" method="post" id="create-account_form" class="std">
+						<form action="{% url 'backend:signup' %}" method="post" id="create_account_form" class="std">
 							{% csrf_token %}
 							<fieldset>
 								<div class="form_content clearfix">
 									<p class="text">
-										<label for="email_create">E-mail</label>
-										<span>
-											<input placeholder="E-mail"  type="email" id="email_create" name="email_create" value="" class="account_input">
-					                    </span>
+										{{regform.username}}
 									</p>
 									<p class="text">
-										<label for="login_create">Логин</label>
-										<span>
-											<input placeholder="Логин"  type="text" id="login_create" name="login_create" value="" class="account_input">
-					                    </span>
+										{{regform.email}}
 									</p>
 									<p class="text">
-									<label for="passwd">Пароль</label>
-										<span><input placeholder="Пароль" type="password" id="passwd" name="passwd" value="" class="account_input"></span>
+										{{regform.password1}}
 									</p>
 									<p class="text">
-									<label for="passwd">Повторите пароль</label>
-										<span><input placeholder="Повторите пароль" type="password" id="passwd_repeat" name="passwd_repeat" value="" class="account_input"></span>
+										{{regform.password2}}
 									</p>
 									<p class="submit">
 										<button class="btn btn-primary">Зарегистрироваться</button>
@@ -141,6 +136,7 @@
 		    	</div>
 		  	</div>
 		</div>
+		{% endif %}
 	</section>  <!-- End of /Section -->
 
 
@@ -152,7 +148,7 @@
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-					<a href="#">
+					<a href="{% url 'index' %}">
 						<img src="{% static 'frontend/images/logo.png' %}" alt="logo">
 					</a>
 				</div>	<!-- End of /.col-md-12 -->
@@ -164,21 +160,15 @@
 	<section id="blog">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-9 clearfix">
-					{% block content %}
-
-					{% endblock %}
-				</div>	<!-- End of /.col-md-9 -->
-
-				<div class="col-md-3">
+				<div class="col-md-3 col-md-push-9">
 					<div class="blog-sidebar">
 						<div class="block">
 							<h4>Категории</h4>
 							<div class="list-group">
 								{% for category in categories %}
-								<a href="#" class="list-group-item">
+								<a href="/?category={{ category.id }}" class="list-group-item">
 									<i class="fa  fa-dot-circle-o"></i>
-									Italian Foods
+									{{ category }}
 								</a>
 								{% endfor %}
 							</div>
@@ -188,13 +178,12 @@
 							<ul class="media-list">
 								{% for post in popPosts %}
 							 	<li class="media">
-							    	<a class="pull-left" href="#">
-							      		<img class="media-object" src="{% static 'frontend/images/post-img.png' %}" alt="...">
+							    	<a class="pull-left" href="/recipe/{{ post.id }}">
+							      		<img class="media-object" src="/media/{{ post.image.pathImage }}" alt="...">
 							    	</a>
 							    	<div class="media-body">
-							      		<a href="" class="media-heading">
-							      			Lorem ipsum dolor</a>
-							    	  	<p>January 10,2014</p>
+							      		<a href="/recipe/{{ post.id }}" class="media-heading">{{ post }}</a>
+							    	  	<p>{{ post.created_at|date:"d-m-Y" }}</p>
 							    	</div>
 							  	</li>	<!-- End of /.media -->
 							  	{% endfor %}
@@ -203,6 +192,12 @@
 
 					</div>	<!-- End of /.blog-sidebar -->
 				</div>	<!-- End of /.col-md-3 -->
+
+				<div class="col-md-9 clearfix col-md-pull-3">
+					{% block content %}
+
+					{% endblock %}
+				</div>	<!-- End of /.col-md-9 -->
 			</div>	<!-- End of /.row -->
 		</div>	<!-- End of /.container -->
 	</section>	<!-- End of /#Blog -->
@@ -222,7 +217,7 @@
 			<div class="row">
 				<div class="col-md-4">
 					<div class="block clearfix">
-						<a href="#">
+						<a href="{% url 'index' %}">
 							<img src="{% static 'frontend/images/footer-logo.png' %}" alt="">
 						</a>
 						<p>
@@ -277,10 +272,100 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js" integrity="sha512-jGR1T3dQerLCSm/IGEGbndPwzszJBlKQ5Br9vuB0Pw2iyxOy+7AK+lJcCC8eaXyz/9du+bkCy4HXxByhxkHf+w==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-nivoslider/3.2/jquery.nivo.slider.min.js" integrity="sha512-rwjQKesPaeXWoFNcTVz8rPBqsU06+JhcsudIQfpUiOhxGHqymn9aSJpG7NPu4MZJ7V32Cq4YjT1qV5vVngYA1g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js" integrity="sha512-9CWGXFSJ+/X0LWzSRCZFsOPhSfm6jbnL+Mpqo0o8Ke2SYr8rCTqb4/wGm+9n13HtDE1NQpAEOrMecDZw4FXQGg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.5.1/jquery.nicescroll.min.js" integrity="sha512-/iJAncx8oaP3q88XbOqC/6c0/5yCp84GDl45SDtBzcue2gFlVmGl1wVUAro23F3h40taFcL+OL6CZywnDSCdsQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js" integrity="sha512-zMfrMAZYAlNClPKjN+JMuslK/B6sPM09BGvrWlW+cymmPmsUT1xJF3P4kxI3lOh9zypakSgWaTpY6vDJY/3Dig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.2.0/jquery.scrollUp.min.js" integrity="sha512-2+pgrvOTcp+zHiLfZFyuqWu0BXzNBGMesjZnznKaXu3PVgUXUpcjTj/Ex8j3S4rl45eIBK3KP56jgowLMh6nKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{% static 'frontend/js/main.js' %}" type="text/javascript"></script>
+<script src="{% static 'frontend/js/toast.js' %}" type="text/javascript"></script>
 	<script src="https://kit.fontawesome.com/ddf986bc5c.js" crossorigin="anonymous"></script>
+
+	{% if not user.is_authenticated %}
+	<script>
+		document.getElementById("login_form").addEventListener("submit", function(e){
+			e.preventDefault();
+			let form = document.forms.login_form
+			let username = form.elements.username.value
+			let password = form.elements.password.value
+			let token = form.elements.csrfmiddlewaretoken.value
+
+			if (username.trim().length === 0){
+				toastWarning("Заполните поле логина");
+				return
+			}
+
+			var xhr = new XMLHttpRequest();
+			var body = 'username=' + encodeURIComponent(username) +
+			  '&password=' + encodeURIComponent(password) +
+			  '&csrfmiddlewaretoken=' + encodeURIComponent(token);
+
+			xhr.open("POST", form.action, true);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+			xhr.onreadystatechange = function () {
+				if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
+					if (xhr.responseText === 'success')
+						window.location.replace('')
+					else {
+						data = JSON.parse(JSON.parse(xhr.responseText));
+						Object.keys(data).forEach(function (k) {
+							Object.keys(data[k]).forEach(function (k2) {
+								toastWarning(data[k][k2]["message"]);
+							});
+						});
+					}
+				};
+			};
+
+			xhr.send(body);
+		});
+
+		document.getElementById("create_account_form").addEventListener("submit", function(e){
+			e.preventDefault();
+			let form = document.forms.create_account_form
+			let username = form.elements.username.value
+			let email = form.elements.email.value
+			let password1 = form.elements.password1.value
+			let password2 = form.elements.password2.value
+			let token = form.elements.csrfmiddlewaretoken.value
+
+			if (username.trim().length === 0){
+				toastWarning("Заполните поле логина");
+				return
+			}
+
+			if(!ValidateEmail(email)) {
+				toastWarning("Введите правильный адрес электронной почты");
+				return
+			}
+
+			var xhr = new XMLHttpRequest();
+			var body = 'username=' + encodeURIComponent(username) +
+					'&email=' + encodeURIComponent(email) +
+					'&password1=' + encodeURIComponent(password1) +
+					'&password2=' + encodeURIComponent(password2) +
+					'&csrfmiddlewaretoken=' + encodeURIComponent(token);
+
+			xhr.open("POST", form.action, true);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+			xhr.onreadystatechange = function () {
+				if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
+					if (xhr.responseText === 'success')
+						window.location.replace('')
+					else {
+						data = JSON.parse(JSON.parse(xhr.responseText));
+						Object.keys(data).forEach(function (k) {
+							Object.keys(data[k]).forEach(function (k2) {
+								toastWarning(data[k][k2]["message"]);
+							});
+						});
+					}
+				};
+			};
+
+			xhr.send(body);
+		});
+	</script>
+	{% endif %}
+
 </body>
 </html>

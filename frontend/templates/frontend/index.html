@@ -2,54 +2,78 @@
 {% block content %}
 {% load static %}
 <ul class="blog-zone">
+    {% for recipe in page_obj %}
+
     <li>
         <div class="blog-icon">
             <i class="fa fa-utensils"></i>
         </div>
         <div class="blog-box">
-            <img src="{% static 'frontend/images/blog-1.jpg' %}" alt="">
+            <img src="/media/{{ recipe.image.pathImage }}" alt="">
 
             <div class="blog-post-body clearfix">
-                <a href="blog-single.html">
-                    <h2>Рисовые блинчики</h2>
+                <a href="/recipe/{{ recipe.id }}">
+                    <h2>{{ recipe }}</h2>
                 </a>
                 <div class="blog-post-tag">
                     <div class="block">
                         <i class="fa fa-clock-o"></i>
-                        <p>12 Янв,2014</p>
+                        <p>{{ recipe.created_at|date:"d-m-Y" }}</p>
                     </div>
                     <div class="block">
                         <i class="fa fa-user"></i>
-                        <p>Admin</p>
+                        <p>{{ recipe.user.username }}</p>
                     </div>
                     <div class="block">
                         <i class="fa fa-tags"></i>
                         <p>
-                            <a href="">Food Culture</a>,
-                            <a href="">Green Items</a>
+                            {% for category in recipe.categories.all %}
+                            <a href="/?category={{ category.id }}">{{ category }}</a>,
+                            {% endfor %}
                         </p>
                     </div>
                     <div class="block">
                         <i class="fa fa-comments"></i>
-                        <p>3 Комментарии</p>
+                        <p>{{ recipe.comments.count }} Комментарии</p>
                     </div>
                 </div>
-                <p>Как уже неоднократно упомянуто, реплицированные с зарубежных источников, современные исследования призывают нас к новым свершениям, которые, в свою очередь, должны быть превращены в посмешище, хотя само их существование приносит несомненную пользу обществу. И нет сомнений, что диаграммы связей, инициированные исключительно синтетически, превращены в посмешище, хотя само их существование приносит несомненную пользу обществу. Но консультация с широким активом не даёт нам иного выбора, кроме определения глубокомысленных рассуждений.</p>
-                <a href="blog-single.html" class="btn btn-default btn-transparent pull-right" role="button">
+                <p>{{ recipe.description | truncatechars:300 }}...</p>
+                <a href="/recipe/{{ recipe.id }}" class="btn btn-default btn-transparent pull-right" role="button">
                     <span>Подробнее</span>
                 </a>
             </div>
         </div>	<!-- End of /.blog-box -->
     </li>
+
+    {% endfor %}
 </ul>	<!-- End of /.blog-zone -->
 
 <!-- Pagination -->
  <ul class="pagination pull-right">
-    <li class="disabled"><a href="#">&laquo;</a></li>
+     {% if page_obj.has_previous %}
+     {% if page_obj.paginator.num_pages > 2 %}
+     <li><a href="?page=1">&laquo;&laquo;</a></li>
+     {% endif %}
+     <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+     {% endif %}
+     {% for item in paginationList %}
+     {% if item == page_obj.number %}
+     <li class="active"><a href="?page={{ item }}">{{ item }}</a></li>
+     {% else %}
+     <li><a href="?page={{ item }}">{{ item }}</a></li>
+     {% endif %}
+     {% endfor %}
+     {% if page_obj.has_next %}
+     <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+     {% if page_obj.paginator.num_pages > 2 %}
+     <li><a href="?page={{ page_obj.paginator.num_pages }}">&raquo;&raquo;</a></li>
+     {% endif %}
+     {% endif %}
+     <!--<li class="disabled"><a href="#">&laquo;</a></li>
     <li class="active"><a href="#">1 <span class="sr-only"></span></a></li>
     <li><a href="#">2</a></li>
     <li><a href="#">3</a></li>
     <li><a href="#">4</a></li>
-    <li><a href="#">»</a></li>
+    <li><a href="#">»</a></li>-->
 </ul>	<!-- End of /.pagination -->
 {% endblock %}

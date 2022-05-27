@@ -1,4 +1,4 @@
-------------- Common-CSS----------------*/
+/*------------- Common-CSS----------------*/
 
 body { font-family: 'Open Sans', sans-serif; color: #555; font-size: 14px; font-weight: 300; }
 li { list-style: none;}
@@ -82,6 +82,9 @@ section+section { margin-top: 50px; }
 #top .login-cart li a i {
 	margin-right: 3px;
 }
+#top{
+	padding-top: 1em;
+}
 header {
 	padding: 40px 0;
 	text-align: center;
@@ -151,45 +154,45 @@ header {
     ==================================================*/
 
 
-#create-account_form, #login_form {
+#create_account_form, #login_form {
 	float: left;
 	text-align: center;
 	width: 100%;
 }
-#create-account_form {
+#create_account_form {
 	margin-top: 0;
 	min-height: 245px;
 }
 .form_content {
 	padding-top: 1em;
 }
-#create-account_form h3,
+#create_account_form h3,
 #login_form h3 {
 	background: none repeat scroll 0 0 #212224;
 	color: #FFFFFF;
 	padding:8px 0;
 	font-size: 24px;
 }
-#authentication #create-account_form .form_content,
+#authentication #create_account_form .form_content,
 #authentication #login_form .form_content {
 	min-height: 185px;
 	padding: 15px 10px;
 }
-#create-account_form h4 {
+#create_account_form h4 {
 	font-size: 18px;
 	font-weight: normal;
 	margin: 0 10px;
 	padding-bottom: 22px;
 	text-align: left;
 }
-#create-account_form #email_create,
+#create_account_form #email_create,
 #login_form #email,
-#login_form #passwd,
+#login_form #passwdL,
 #login_form #login_email,
 #login_form #login_passwd,
-#create-account_form #passwd,
-#create-account_form #passwd_repeat,
-#create-account_form #login_create {
+#create_account_form #passwd,
+#create_account_form #passwd_repeat,
+#create_account_form #login_create {
 	height: auto;
 	padding: 5px;
 	width: 220px;
@@ -197,15 +200,15 @@ header {
 }
 
 
-#create-account_form .text label {
+#create_account_form .text label {
 	display: none;
 }
-#create-account_form h3,
+#create_account_form h3,
 #authentication #login_form h3 {
 	background: none repeat scroll 0 0 #212224;
 	color: #FFFFFF;
 }
-#authentication #create-account_form .form_content,
+#authentication #create_account_form .form_content,
 #authentication #login_form .form_content {
 	background: none repeat scroll 0 0 #F0F0F0 !important;
 }
@@ -213,7 +216,7 @@ header {
 	display: none;
 }
 #login_form > fieldset ,
-#create-account_form > fieldset {
+#create_account_form > fieldset {
 	background: #f5f5f5;
 }
 
@@ -943,6 +946,7 @@ footer .block span {
 	background: #eee;
 	padding-left: 17px;
 	border-left: 3px solid #90c222;
+	margin-bottom: 10px;
 }
 .blog-post-tag .block i {
 	color: #90c322;
@@ -966,7 +970,8 @@ footer .block span {
 	color: #90c322;
 	margin-bottom: 20px;
 }
-.blog-post-body p {
+.blog-post-body p,
+.blog-post-body span{
 	font-size: 16px;
 	color: #555;
 	padding-top: 10px;

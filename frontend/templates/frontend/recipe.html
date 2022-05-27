@@ -7,35 +7,35 @@
             <i class="fa  fa-utensils"></i>
         </div>
         <div class="blog-box">
-            <img src="{% static 'recipes/images/blog-1.jpg' %}" alt="">
+            <img src="/media/{{ recipe.image.pathImage }}" alt="">
 
             <div class="blog-post-body clearfix">
                 <a href="">
-                    <h2>Ricebean black-eyed pea</h2>
+                    <h2>{{ recipe }}</h2>
                 </a>
                 <div class="blog-post-tag">
                     <div class="block">
                         <i class="fa fa-clock-o"></i>
-                        <p>12 Jan,2014</p>
+                        <p>{{ recipe.created_at|date:"d-m-Y" }}</p>
                     </div>
                     <div class="block">
                         <i class="fa fa-user"></i>
-                        <p>Admin</p>
+                        <p>{{ recipe.user.username }}</p>
                     </div>
                     <div class="block">
                         <i class="fa fa-tags"></i>
                         <p>
-                            <a href="">Food Culture</a>,
-                            <a href="">Green Items</a>
+                            {% for category in recipe.categories.all %}
+                            <a href="/?category={{ category.id }}">{{ category }}</a>,
+                            {% endfor %}
                         </p>
                     </div>
                     <div class="block">
                         <i class="fa fa-comments"></i>
-                        <p>3 Comments</p>
+                        <p>{{ recipe.comments.count }} Комментарии</p>
                     </div>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus, nostrum inventore debitis accusantium natus praesentium enim sequi culpa provident dignissimos veniam deserunt voluptatibus fugit delectus pariatur numquam optio quidem illo. Obcaecati, placeat, enim accusantium sunt inventore sed dolorum molestiae ab consequuntur voluptatem dolor necessitatibus reprehenderit adipisci explicabo hic quibusdam pariatur!</p>
-                <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren sed diam voluptua.</p>
+                <span>{{ recipe.description }}</span>
 
                 <blockquote>
                     <p>Lorem ipsum dolor sit amet, in pri offendit ocurreret. Vix sumo ferri an. pfs adodio fugit delenit ut qui. Omittam suscipiantur ex  vel,ex audiam  intellegat gfIn labitur discere eos, nam an feugiat voluptua.</p>
@@ -43,96 +43,33 @@
                         - John Doe , Author
                     </div>
                 </blockquote>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Unde expedita neque excepturi iste cumque! Dolorem, ipsum, totam, culpa ullam dolores qui possimus corrupti suscipit recusandae quam magnam quis eaque incidunt!</p>
             </div>
         </div>
     </li>
 </ul>	<!-- End of /.blog-zone -->
 
-<div class="author-id">
-    <div class="media">
-        <h5>About The Author</h5>
-        <img class="media-object pull-left" src="images/author.jpg" alt="...">
-        <div class="media-body">
-            <h6 class="media-heading">John Mark</h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, sequi quibusdam voluptate perferendis veniam eveniet! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis, veritatis.</p>
-        </div>	<!-- End of /.media-body -->
-    </div>	<!-- End of /.media -->
-</div>	<!-- End of /.author-id -->
-
+{% if recipe.comments.count > 0 %}
 <div class="comments-box">
-    <h5>3 REPSONSES</h5>
+    <h5>{{ recipe.comments.count }} Комментарии</h5>
+
+    {% for comment in recipe.comments.all %}
     <div class="media">
-        <img class="media-object pull-left" src="images/author.jpg" alt="...">
         <div class="media-body">
-            <h6 class="media-heading">John Mark <span>12 February 2013 at 2:05 am</span> <a href=""  class="pull-right">(reply)</a></h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, sequi quibusdam voluptate perferendis veniam eveniet! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis, veritatis.</p>
+            <h6 class="media-heading">{{ comment.user.username }} <span class="pull-right">{{ comment.created_at | date:"d-m-Y H:i:s" }}</span></h6>
+            <p>{{ comment.data }}</p>
         </div>	<!-- End of /.meida-body -->
     </div>	<!-- End of /.media -->
+    {% endfor %}
 
-
-    <!-- reply -->
-    <div class="media reply">
-        <img class="media-object pull-left" src="images/author.jpg" alt="...">
-        <div class="media-body">
-            <h6 class="media-heading">John Mark <span>12 February 2013 at 2:05 am</span> <a href=""  class="pull-right">(reply)</a></h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, sequi quibusdam voluptate perferendis </p>
-        </div>
-    </div>
-
-
-    <!-- reply -->
-    <div class="media reply">
-        <img class="media-object pull-left" src="images/author.jpg" alt="...">
-        <div class="media-body">
-            <h6 class="media-heading">John Mark <span>12 February 2013 at 2:05 am</span> <a href=""  class="pull-right">(reply)</a></h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, sequi quibusdam voluptate perferendis </p>
-        </div>
-    </div>
-
-
-    <!-- media -->
-    <div class="media">
-        <img class="media-object pull-left" src="images/author.jpg" alt="...">
-        <div class="media-body">
-            <h6 class="media-heading">John Mark <span>12 February 2013 at 2:05 am</span> <a href=""  class="pull-right">(reply)</a></h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, sequi quibusdam voluptate perferendis veniam eveniet! Lorem ipsum dolor sit amet, consectetur adipisicing elit. Perspiciatis, veritatis.</p>
-        </div>	<!-- End of /.media-body -->
-    </div>	<!-- End of /.media -->
-
-    <!-- reply -->
-    <div class="media reply">
-        <img class="media-object pull-left" src="images/author.jpg" alt="...">
-        <div class="media-body">
-            <h6 class="media-heading">John Mark <span>12 February 2013 at 2:05 am</span> <a href=""  class="pull-right">(reply)</a></h6>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore, sequi quibusdam voluptate perferendis </p>
-        </div>	<!-- End of /.media body -->
-    </div>	<!-- End of /.media-reply -->
 </div>	<!-- End of /.comments-box -->
+{% endif %}
 
+{% if user.is_authenticated %}
 <div class="leave-comment">
-    <h5>LEAVE A COMMENT</h5>
+    <h5>Оставить комментарий</h5>
     <form class="form-horizontal" role="form">
         <div class="form-group">
-            <label for="inputname" class="col-sm-2 control-label">Name</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputname" placeholder="Name">
-            </div>
-        </div>	<!-- End of /.form-group -->
-        <div class="form-group">
-            <label for="inputEmail" class="col-sm-2 control-label">Email</label>
-            <div class="col-sm-10">
-                <input type="email" class="form-control" id="inputEmail" placeholder="Email">
-            </div>
-        </div>	<!-- End of /.form-group -->
-        <div class="form-group">
-            <label for="inputwebsite" class="col-sm-2 control-label">Website</label>
-            <div class="col-sm-10">
-                <input type="text" class="form-control" id="inputwebsite" placeholder="Website">
-            </div>
-        </div>	<!-- End of /.form-group -->
-        <div class="form-group">
-            <label for="inputmessage" class="col-sm-2 control-label">Message</label>
+            <label for="inputmessage" class="col-sm-2 control-label">Сообщение</label>
             <div class="col-sm-10">
                 <textarea class="form-control" id="inputmessage"  rows="3"></textarea>
             </div>
@@ -140,9 +77,10 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Send</button>
+                <button type="submit" class="btn btn-primary">Отправить</button>
             </div>
         </div>	<!-- End of /.form-group -->
     </form>	<!-- End of /.form-horizontal -->
 </div>	<!-- End of /.leave comments -->
+{% endif %}
 {% endblock %}
