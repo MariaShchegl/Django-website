@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
+from ckeditor_uploader.fields import RichTextUploadingField
 
 
 # Create your models here.
@@ -33,7 +34,7 @@ class Recipe(models.Model):
     title = models.CharField(max_length=50)
     created_at = models.DateTimeField(auto_now_add=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    description = TextFieldImpl(default="")
+    description = RichTextUploadingField()
     image = models.OneToOneField(Image,
         on_delete=models.CASCADE)
     def __str__(self):

@@ -29,9 +29,15 @@
 				<div class="col-md-6"></div>
 				<div class="col-md-6 clearfix">
 					<ul class="login-cart pull-right">
+						<li>
+							<a href="{% url 'index' %}" {% if request.resolver_match.url_name == 'index' and not request.GET.category %}class="active"{% endif %}>
+								<i class="fa fa-home"></i>
+								Главная
+							</a>
+						</li>
 						{% if user.is_authenticated %}
 						<li>
-							<a href="#">
+							<a href="{% url 'account' %}" {% if request.resolver_match.url_name == 'account' %}class="active"{% endif %}>
 							<i class="fa fa-user"></i>
 	 	 						Личный кабинет
 							</a>
@@ -160,13 +166,16 @@
 	<section id="blog">
 		<div class="container">
 			<div class="row">
+				{% block container %}
 				<div class="col-md-3 col-md-push-9">
 					<div class="blog-sidebar">
+						{% block sidebar %}
 						<div class="block">
 							<h4>Категории</h4>
 							<div class="list-group">
+								{% load paging %}
 								{% for category in categories %}
-								<a href="/?category={{ category.id }}" class="list-group-item">
+								<a href="?category={{ category.id }}" class='list-group-item {% if request.GET.category|add:"0" == category.id %}active{% endif %}'>
 									<i class="fa  fa-dot-circle-o"></i>
 									{{ category }}
 								</a>
@@ -189,7 +198,7 @@
 							  	{% endfor %}
 							</ul>	<!-- End of /.media-list -->
 						</div>	<!-- End of /.block -->
-
+						{% endblock %}
 					</div>	<!-- End of /.blog-sidebar -->
 				</div>	<!-- End of /.col-md-3 -->
 
@@ -198,6 +207,7 @@
 
 					{% endblock %}
 				</div>	<!-- End of /.col-md-9 -->
+				{% endblock %}
 			</div>	<!-- End of /.row -->
 		</div>	<!-- End of /.container -->
 	</section>	<!-- End of /#Blog -->
@@ -275,8 +285,11 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.nicescroll/3.7.6/jquery.nicescroll.min.js" integrity="sha512-zMfrMAZYAlNClPKjN+JMuslK/B6sPM09BGvrWlW+cymmPmsUT1xJF3P4kxI3lOh9zypakSgWaTpY6vDJY/3Dig==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/scrollup/2.2.0/jquery.scrollUp.min.js" integrity="sha512-2+pgrvOTcp+zHiLfZFyuqWu0BXzNBGMesjZnznKaXu3PVgUXUpcjTj/Ex8j3S4rl45eIBK3KP56jgowLMh6nKw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 	<script src="{% static 'frontend/js/main.js' %}" type="text/javascript"></script>
-<script src="{% static 'frontend/js/toast.js' %}" type="text/javascript"></script>
+	<script src="{% static 'frontend/js/toast.js' %}" type="text/javascript"></script>
 	<script src="https://kit.fontawesome.com/ddf986bc5c.js" crossorigin="anonymous"></script>
+
+	{% block scripts %}
+	{% endblock %}
 
 	{% if not user.is_authenticated %}
 	<script>

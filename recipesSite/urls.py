@@ -22,6 +22,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('backend/', include('recipes.urls')),
+    path('ckeditor', include('ckeditor_uploader.urls')),
     path('', include('frontend.urls')),
 ]
 

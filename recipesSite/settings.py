@@ -35,6 +35,9 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'frontend',
     'recipes',
+    'ckeditor',
+    'rest_framework',
+    'ckeditor_uploader',
     'debug_toolbar',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -74,7 +77,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'recipesSite.wsgi.application'
-
 
 INTERNAL_IPS = [
     "127.0.0.1"
@@ -133,6 +135,7 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CKEDITOR_UPLOAD_PATH ='uploads/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -169,3 +172,6 @@ LOGGING = {
         }
     }
 }
+
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
+CKEDITOR_IMAGE_BACKEND = "pillow"

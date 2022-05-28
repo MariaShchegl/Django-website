@@ -1,0 +1,82 @@
+{% extends "frontend/wrapper.html" %}
+{% block container %}
+{% load static %}
+<div class="col-md-2"></div>
+<div class="col-md-9 clearfix">
+	<div class="form_content clearfix">
+		<form enctype="multipart/form-data" action="{% url 'backend:update' recipe_id %}" method="post" id="form_recipe" class="std">
+			{% csrf_token %}
+			<p class="text">
+				{{form.pathImage.label}}
+				{{form.pathImage}}
+			</p>
+			<p class="text">
+				{{form.title.label}}
+				{{form.title}}
+			</p>
+			<p class="text">
+				{{form.description.label}}
+				{{form.description}}
+			</p>
+			<p class="submit" style="margin-right: 10px">
+				<button class="btn btn-default btn-transparent pull-right"><span>Сохранить</span></button>
+			</p>
+		</form>
+	</div>
+</div>	<!-- End of /.col-md-9 -->
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
+<script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
+
+<!--<script>
+	document.getElementById("form_recipe").addEventListener("submit", function(e){
+			e.preventDefault();
+			let form = document.forms.form_recipe
+			let title = form.elements.title.value
+			let description = form.elements.description.value
+			let imageF = form.elements.image.value
+			let token = form.elements.csrfmiddlewaretoken.value
+
+		console.log(imageF)
+
+			if (title.trim().length === 0){
+				toastWarning("Заполните поле названия");
+				return
+			}
+
+			if (description.trim().length === 0){
+				toastWarning("Заполните поле описания");
+				return
+			}
+
+			var xhr = new XMLHttpRequest();
+			var body = 'title=' + encodeURIComponent(title) +
+					'&description=' + encodeURIComponent(description) +
+					'&image=' + encodeURIComponent(imageF);
+
+			xhr.open("PUT", form.action, true);
+			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+			xhr.setRequestHeader('X-CSRFToken', token);
+
+			xhr.onreadystatechange = function () {
+				if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
+					console.log(xhr.responseText)
+					if (xhr.responseText === 'success')
+						window.location.replace('')
+					else {
+						data = JSON.parse(JSON.parse(xhr.responseText));
+						Object.keys(data).forEach(function (k) {
+							Object.keys(data[k]).forEach(function (k2) {
+								toastWarning(data[k][k2]["message"]);
+							});
+						});
+					}
+				};
+			};
+
+			xhr.send(body);
+		});
+</script>-->
+{% endblock %}

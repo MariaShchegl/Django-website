@@ -1,6 +1,9 @@
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UsernameField
 
+from ckeditor_uploader.widgets import CKEditorUploadingWidget
+
+from recipes.models import Recipe, Image
 
 class AuthForm(AuthenticationForm):
 
@@ -40,3 +43,24 @@ class RegForm(UserCreationForm):
         if commit:
             instance.save()
         return instance
+
+
+class RecipeForm(forms.ModelForm):
+    pathImage = forms.ImageField()
+    title = forms.CharField(max_length=50)
+    description = forms.CharField(widget=CKEditorUploadingWidget())
+    pathImage.label = 'Изображение блюда'
+    title.label = 'Название блюда'
+    description.label = 'Описание блюда'
+
+    class Meta:
+        model = Recipe
+        fields = ['pathImage', 'title', 'description']
+
+
+class ImageForm(forms.ModelForm):
+    pathImage = forms.ImageField()
+
+    class Meta:
+        model = Image
+        fields = ['pathImage']

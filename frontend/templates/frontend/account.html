@@ -1,0 +1,96 @@
+{% extends "frontend/wrapper.html" %}
+{% block sidebar %}
+<div class="block">
+    <div class="list-group">
+        <a href="#" class="btn btn-default btn-transparent mt-1" role="button">
+            <span>Добавить рецепт</span>
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+{% load static %}
+{% load paging %}
+<ul class="blog-zone">
+    {% if page_obj %}
+    {% for recipe in page_obj %}
+
+    <li>
+        <div class="blog-icon">
+            <i class="fa fa-utensils"></i>
+        </div>
+        <div class="blog-box">
+            <img src="/media/{{ recipe.image.pathImage }}" alt="">
+
+            <div class="blog-post-body clearfix">
+                <a href="/recipe/{{ recipe.id }}">
+                    <h2>{{ recipe }}</h2>
+                </a>
+                <div class="blog-post-tag">
+                    <div class="block">
+                        <i class="fa fa-clock-o"></i>
+                        <p>{{ recipe.created_at|date:"d-m-Y" }}</p>
+                    </div>
+                    <div class="block">
+                        <i class="fa fa-user"></i>
+                        <p>{{ recipe.user.username }}</p>
+                    </div>
+                    <div class="block">
+                        <i class="fa fa-tags"></i>
+                        <p>
+                            {% for category in recipe.categories.all %}
+                            <a href="?category={{ category.id }}">{{ category }}</a>,
+                            {% endfor %}
+                        </p>
+                    </div>
+                    <div class="block">
+                        <i class="fa fa-comments"></i>
+                        <p>{{ recipe.comments.count }} Комментарии</p>
+                    </div>
+                </div>
+                <p>{{ recipe.description | safe | truncatechars:100 }}</p>
+                <a href="/recipe/{{ recipe.id }}" class="btn btn-default btn-transparent pull-right ml-1" role="button">
+                    <span>Подробнее</span>
+                </a>
+                <a href="/recipe/{{ recipe.id }}/edit" class="btn btn-default btn-transparent pull-right ml-1" role="button">
+                    <span>Редактировать</span>
+                </a>
+                <a href="/recipe/{{ recipe.id }}" class="btn btn-danger btn-transparent pull-right" role="button">
+                    <span>Удалить</span>
+                </a>
+            </div>
+        </div>	<!-- End of /.blog-box -->
+    </li>
+
+    {% endfor %}
+    {% else %}
+    <li>
+        <div class="blog-box">
+            <p>В данной категории рецептов нет</p>
+        </div>
+    </li>
+    {% endif %}
+</ul>	<!-- End of /.blog-zone -->
+
+<!-- Pagination -->
+{% if page_obj.paginator.num_pages > 1 %}
+ <ul class="pagination pull-right">
+     {% if page_obj.has_previous %}
+     {% if page_obj.paginator.num_pages > 2 %}
+     <li><a href="?{% url_replace request 'page' 1 %}">&laquo;&laquo;</a></li>
+     {% endif %}
+     <li><a href="?{% url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a></li>
+     {% endif %}
+     {% for item in paginationList %}
+     <li {% if item == page_obj.number %}class="active"{% endif %}><a href="?{% url_replace request 'page' item %}">{{ item }}</a></li>
+     {% endfor %}
+     {% if page_obj.has_next %}
+     <li><a href="?{% url_replace request 'page' page_obj.next_page_number %}">&raquo;</a></li>
+     {% if page_obj.paginator.num_pages > 2 %}
+     <li><a href="?{% url_replace request 'page' page_obj.paginator.num_pages %}">&raquo;&raquo;</a></li>
+     {% endif %}
+     {% endif %}
+</ul>	<!-- End of /.pagination -->
+{% endif %}
+{% endblock %}

@@ -1,7 +1,9 @@
 {% extends "frontend/wrapper.html" %}
 {% block content %}
 {% load static %}
+{% load paging %}
 <ul class="blog-zone">
+    {% if page_obj %}
     {% for recipe in page_obj %}
 
     <li>
@@ -28,7 +30,7 @@
                         <i class="fa fa-tags"></i>
                         <p>
                             {% for category in recipe.categories.all %}
-                            <a href="/?category={{ category.id }}">{{ category }}</a>,
+                            <a href="?category={{ category.id }}">{{ category }}</a>,
                             {% endfor %}
                         </p>
                     </div>
@@ -37,7 +39,7 @@
                         <p>{{ recipe.comments.count }} Комментарии</p>
                     </div>
                 </div>
-                <p>{{ recipe.description | truncatechars:300 }}...</p>
+                <p>{{ recipe.description | safe | truncatechars:100 }}</p>
                 <a href="/recipe/{{ recipe.id }}" class="btn btn-default btn-transparent pull-right" role="button">
                     <span>Подробнее</span>
                 </a>
@@ -46,34 +48,37 @@
     </li>
 
     {% endfor %}
+    {% else %}
+    <li>
+        <div class="blog-box">
+            <p>В данной категории рецептов нет</p>
+        </div>
+    </li>
+    {% endif %}
 </ul>	<!-- End of /.blog-zone -->
 
 <!-- Pagination -->
+{% if page_obj.paginator.num_pages > 1 %}
  <ul class="pagination pull-right">
      {% if page_obj.has_previous %}
      {% if page_obj.paginator.num_pages > 2 %}
-     <li><a href="?page=1">&laquo;&laquo;</a></li>
+     <li><a href="?{% url_replace request 'page' 1 %}">&laquo;&laquo;</a></li>
      {% endif %}
-     <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+     <li><a href="?{% url_replace request 'page' page_obj.previous_page_number %}">&laquo;</a></li>
      {% endif %}
      {% for item in paginationList %}
      {% if item == page_obj.number %}
-     <li class="active"><a href="?page={{ item }}">{{ item }}</a></li>
+     <li class="active"><a href="?{% url_replace request 'page' item %}">{{ item }}</a></li>
      {% else %}
-     <li><a href="?page={{ item }}">{{ item }}</a></li>
+     <li><a href="?{% url_replace request 'page' item %}">{{ item }}</a></li>
      {% endif %}
      {% endfor %}
      {% if page_obj.has_next %}
-     <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+     <li><a href="?{% url_replace request 'page' page_obj.next_page_number %}">&raquo;</a></li>
      {% if page_obj.paginator.num_pages > 2 %}
-     <li><a href="?page={{ page_obj.paginator.num_pages }}">&raquo;&raquo;</a></li>
+     <li><a href="?{% url_replace request 'page' page_obj.paginator.num_pages %}">&raquo;&raquo;</a></li>
      {% endif %}
      {% endif %}
-     <!--<li class="disabled"><a href="#">&laquo;</a></li>
-    <li class="active"><a href="#">1 <span class="sr-only"></span></a></li>
-    <li><a href="#">2</a></li>
-    <li><a href="#">3</a></li>
-    <li><a href="#">4</a></li>
-    <li><a href="#">»</a></li>-->
 </ul>	<!-- End of /.pagination -->
+{% endif %}
 {% endblock %}
