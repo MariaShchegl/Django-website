@@ -3,7 +3,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, User
 
 from ckeditor_uploader.widgets import CKEditorUploadingWidget
 
-from recipes.models import Recipe, Image
+from recipes.models import Recipe, Image, Comment
 
 class AuthForm(AuthenticationForm):
 
@@ -64,3 +64,15 @@ class ImageForm(forms.ModelForm):
     class Meta:
         model = Image
         fields = ['pathImage']
+
+
+class CommentForm(forms.ModelForm):
+    data = forms.CharField(widget=forms.Textarea)
+    data.label = 'Сообщение'
+
+    data.widget.attrs.update({'class': 'form-control'})
+    data.widget.attrs.update(rows=3)
+
+    class Meta:
+        model = Comment
+        fields = ['data']

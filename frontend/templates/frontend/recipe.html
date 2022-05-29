@@ -60,17 +60,18 @@
 {% if user.is_authenticated %}
 <div class="leave-comment">
     <h5>Оставить комментарий</h5>
-    <form class="form-horizontal" role="form">
-        <div class="form-group">
-            <label for="inputmessage" class="col-sm-2 control-label">Сообщение</label>
-            <div class="col-sm-10">
-                <textarea class="form-control" id="inputmessage"  rows="3"></textarea>
+    <form action="{% url 'backend:add_comment' recipe.id %}" method="post" class="form-horizontal" role="form">
+        {% csrf_token %}
+			<div class="form-group">
+                <label for="id_data" class="col-sm-2 control-label">{{ form.data.label }}</label>
+                <div class="col-sm-10">
+				{{ form.data }}
+                </div>
             </div>
-        </div>	<!-- End of /.form-group -->
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-primary">Отправить</button>
+                <button type="submit" class="btn btn-primary pull-right">Отправить</button>
             </div>
         </div>	<!-- End of /.form-group -->
     </form>	<!-- End of /.form-horizontal -->

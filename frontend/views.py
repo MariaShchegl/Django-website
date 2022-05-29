@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .forms import AuthForm, RegForm, RecipeForm
+from .forms import AuthForm, RegForm, RecipeForm, CommentForm
 from recipes.models import Category, Image, Comment, Recipe
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
@@ -56,6 +56,8 @@ def show(request, id=1):
 
     if request.user.is_authenticated:
         context['user'] = request.user
+        form = CommentForm()
+        context['form'] = form
         return render(request, 'frontend/recipe.html', context)
     else:
         context['regForm'] = RegForm()

@@ -1,9 +1,9 @@
 from django.shortcuts import redirect
-from frontend.forms import AuthForm, RegForm, RecipeForm, ImageForm
+from frontend.forms import AuthForm, RegForm, RecipeForm, ImageForm, CommentForm
 from django.contrib.auth import login, logout
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
-from .models import Recipe, Image
+from .models import Recipe, Image, Comment
 from rest_framework.decorators import api_view
 
 import logging
@@ -38,7 +38,7 @@ def store(request):
 # PUT
 # isAuth
 @api_view(['PUT'])
-def update(request, id):
+def update(request, id=0):
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
     form = RecipeForm(data=request.data, instance=recipe)
     if form.is_valid():
@@ -59,7 +59,7 @@ def update(request, id):
 # DELETE
 # isAuth
 @api_view(['GET'])
-def remove(request, id=1):
+def remove(request, id=0):
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
     image_path = recipe.image.pathImage.path
     if os.path.exists(image_path):
@@ -81,6 +81,18 @@ def signin(request):
         return JsonResponse(form.errors.as_json(), safe=False)
 
 
+# Add comment
+def add_comment(request, id=0):
+    form = CommentForm(data=request.POST)
+    if form.is_valid():
+        user = request.user
+        recipe = get_object_or_404(Recipe, id=id)
+        Comment.objects.create(user=user, recipe=recipe, data=form.data['data'])
+        return redirect('/recipe/' + str(id))
+    else:
+        return redirect('index')
+
+
 # Register user
 # POST
 def signup(request):
@@ -96,6 +108,6 @@ def signup(request):
 # Logout user
 # GET
 # isAuth
-def logOut(request):
+def logout_my(request):
     logout(request)
     return redirect('index')

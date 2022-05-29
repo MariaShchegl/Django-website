@@ -7,16 +7,16 @@
 		<form enctype="multipart/form-data" action="{% url 'backend:create' %}" method="post" id="form_recipe" class="std">
 			{% csrf_token %}
 			<p class="text">
-				{{form.pathImage.label}}
-				{{form.pathImage}}
+				{{ form.pathImage.label }}
+				{{ form.pathImage }}
 			</p>
 			<p class="text">
-				{{form.title.label}}
-				{{form.title}}
+				{{ form.title.label }}
+				{{ form.title }}
 			</p>
 			<p class="text">
-				{{form.description.label}}
-				{{form.description}}
+				{{ form.description.label }}
+				{{ form.description }}
 			</p>
 			<p class="submit" style="margin-right: 10px">
 				<button class="btn btn-default btn-transparent pull-right"><span>Сохранить</span></button>
