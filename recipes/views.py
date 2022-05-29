@@ -17,20 +17,34 @@ logger = logging.getLogger(__name__)
 # POST
 # isAuth
 def store(request):
-    pass
+    form = RecipeForm(data=request.POST)
+    formIm = ImageForm(request.POST, request.FILES)
+    if form.is_valid() and len(request.FILES) and formIm.is_valid():
+        image = formIm.save()
+        Recipe.objects.create(image=image, description=form.data['description'], title=form.data['title'], user=request.user)
+        return HttpResponse('success')
+    else:
+        if len(form.errors) > 0 and not form.is_valid():
+            response = form.errors
+            response.update(formIm.errors)
+            return JsonResponse(response.as_json(), safe=False)
+        elif len(form.errors) > 0:
+            return JsonResponse(form.errors.as_json(), safe=False)
+        else:
+            return JsonResponse(formIm.errors.as_json(), safe=False)
 
 
 # Update the specified resource in storage.
 # PUT
 # isAuth
-#@api_view(['PUT'])
+@api_view(['PUT'])
 def update(request, id):
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
-    form = RecipeForm(data=request.POST, instance=recipe)
+    form = RecipeForm(data=request.data, instance=recipe)
     if form.is_valid():
         form.save()
         image = Image.objects.get(id=recipe.image.id)
-        formIm = ImageForm(request.POST, request.FILES, instance=image)
+        formIm = ImageForm(request.data, request.FILES, instance=image)
         if formIm.is_valid() and len(request.FILES):
             image_path = image.pathImage.path
             if os.path.exists(image_path):
@@ -44,8 +58,15 @@ def update(request, id):
 # Remove the specified resource from storage.
 # DELETE
 # isAuth
+@api_view(['GET'])
 def remove(request, id=1):
-    pass
+    recipe = get_object_or_404(Recipe, id=id, user=request.user)
+    image_path = recipe.image.pathImage.path
+    if os.path.exists(image_path):
+        os.remove(image_path)
+    recipe.image.delete()
+    recipe.delete()
+    return redirect('account')
 
 
 # Login user

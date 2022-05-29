@@ -4,7 +4,7 @@
 <div class="col-md-2"></div>
 <div class="col-md-9 clearfix">
 	<div class="form_content clearfix">
-		<form enctype="multipart/form-data" action="{% url 'backend:update' recipe_id %}" method="post" id="form_recipe" class="std">
+		<form enctype="multipart/form-data" action="{% url 'backend:create' %}" method="post" id="form_recipe" class="std">
 			{% csrf_token %}
 			<p class="text">
 				{{form.pathImage.label}}
@@ -35,11 +35,12 @@
         e.preventDefault();
         let form = document.forms.form_recipe
         let title = form.elements.title.value
-        let description = form.elements.description.value
+        let description = CKEDITOR.instances.id_description.getData()
         var file = form.elements.pathImage.files[0];
         let token = form.elements.csrfmiddlewaretoken.value
 
-		console.log(file)
+		var fields = new Map();
+        fields.set("pathImage", "Изображение").set("title", "Название").set("description", "Описание");
 
         if (title.trim().length === 0){
             toastWarning("Заполните поле названия");
@@ -50,6 +51,11 @@
             toastWarning("Заполните поле описания");
             return
         }
+
+        if (file === undefined){
+        	toastWarning("Выберите картинку");
+            return
+		}
 
         var formdata = new FormData();
         formdata.append('pathImage', file);
@@ -64,16 +70,33 @@
             contentType: false,
             processData: false,
             data: formdata,
-            type: 'put',
+            type: 'post',
 			beforeSend:function(xhr){
 				xhr.setRequestHeader("X-CSRFToken", token);
 			},
             success: function (response) { // display success response
-                console.log(response.responseText);
-
+				if (response.responseText === "success"){
+            		window.location.replace('/account')
+				}else{
+            		data = JSON.parse(response);
+						Object.keys(data).forEach(function (k) {
+						Object.keys(data[k]).forEach(function (k2) {
+							toastWarning(fields.get(k) + " " + data[k][k2]["message"]);
+						});
+					});
+				}
             },
-            error: function (response) {
-                console.log(response); // display error response
+            error: function (response) { // display error response
+            	if (response.responseText === "success"){
+            		window.location.replace('/account')
+				}else{
+            		data = JSON.parse(response);
+						Object.keys(data).forEach(function (k) {
+						Object.keys(data[k]).forEach(function (k2) {
+							toastWarning(fields.get(k) + " " + data[k][k2]["message"]);
+						});
+					});
+				}
             }
         });
         /*var xhr = new XMLHttpRequest();

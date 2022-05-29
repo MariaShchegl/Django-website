@@ -118,16 +118,16 @@
 							<fieldset>
 								<div class="form_content clearfix">
 									<p class="text">
-										{{regform.username}}
+										{{regForm.username}}
 									</p>
 									<p class="text">
-										{{regform.email}}
+										{{regForm.email}}
 									</p>
 									<p class="text">
-										{{regform.password1}}
+										{{regForm.password1}}
 									</p>
 									<p class="text">
-										{{regform.password2}}
+										{{regForm.password2}}
 									</p>
 									<p class="submit">
 										<button class="btn btn-primary">Зарегистрироваться</button>
@@ -291,94 +291,94 @@
 	{% block scripts %}
 	{% endblock %}
 
-	{% if not user.is_authenticated %}
-	<script>
-		document.getElementById("login_form").addEventListener("submit", function(e){
-			e.preventDefault();
-			let form = document.forms.login_form
-			let username = form.elements.username.value
-			let password = form.elements.password.value
-			let token = form.elements.csrfmiddlewaretoken.value
+{% if not user.is_authenticated %}
+<script>
+	document.getElementById("login_form").addEventListener("submit", function(e){
+		e.preventDefault();
+		let form = document.forms.login_form
+		let username = form.elements.username.value
+		let password = form.elements.password.value
+		let token = form.elements.csrfmiddlewaretoken.value
 
-			if (username.trim().length === 0){
-				toastWarning("Заполните поле логина");
-				return
-			}
+		if (username.trim().length === 0){
+			toastWarning("Заполните поле логина");
+			return
+		}
 
-			var xhr = new XMLHttpRequest();
-			var body = 'username=' + encodeURIComponent(username) +
-			  '&password=' + encodeURIComponent(password) +
-			  '&csrfmiddlewaretoken=' + encodeURIComponent(token);
+		var xhr = new XMLHttpRequest();
+		var body = 'username=' + encodeURIComponent(username) +
+		  '&password=' + encodeURIComponent(password) +
+		  '&csrfmiddlewaretoken=' + encodeURIComponent(token);
 
-			xhr.open("POST", form.action, true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.open("POST", form.action, true);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-			xhr.onreadystatechange = function () {
-				if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
-					if (xhr.responseText === 'success')
-						window.location.replace('')
-					else {
-						data = JSON.parse(JSON.parse(xhr.responseText));
-						Object.keys(data).forEach(function (k) {
-							Object.keys(data[k]).forEach(function (k2) {
-								toastWarning(data[k][k2]["message"]);
-							});
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
+				if (xhr.responseText === 'success')
+					window.location.replace('')
+				else {
+					data = JSON.parse(JSON.parse(xhr.responseText));
+					Object.keys(data).forEach(function (k) {
+						Object.keys(data[k]).forEach(function (k2) {
+							toastWarning(data[k][k2]["message"]);
 						});
-					}
-				};
+					});
+				}
 			};
+		};
 
-			xhr.send(body);
-		});
+		xhr.send(body);
+	});
 
-		document.getElementById("create_account_form").addEventListener("submit", function(e){
-			e.preventDefault();
-			let form = document.forms.create_account_form
-			let username = form.elements.username.value
-			let email = form.elements.email.value
-			let password1 = form.elements.password1.value
-			let password2 = form.elements.password2.value
-			let token = form.elements.csrfmiddlewaretoken.value
+	document.getElementById("create_account_form").addEventListener("submit", function(e){
+		e.preventDefault();
+		let form = document.forms.create_account_form
+		let username = form.elements.username.value
+		let email = form.elements.email.value
+		let password1 = form.elements.password1.value
+		let password2 = form.elements.password2.value
+		let token = form.elements.csrfmiddlewaretoken.value
 
-			if (username.trim().length === 0){
-				toastWarning("Заполните поле логина");
-				return
-			}
+		if (username.trim().length === 0){
+			toastWarning("Заполните поле логина");
+			return
+		}
 
-			if(!ValidateEmail(email)) {
-				toastWarning("Введите правильный адрес электронной почты");
-				return
-			}
+		if(!ValidateEmail(email)) {
+			toastWarning("Введите правильный адрес электронной почты");
+			return
+		}
 
-			var xhr = new XMLHttpRequest();
-			var body = 'username=' + encodeURIComponent(username) +
-					'&email=' + encodeURIComponent(email) +
-					'&password1=' + encodeURIComponent(password1) +
-					'&password2=' + encodeURIComponent(password2) +
-					'&csrfmiddlewaretoken=' + encodeURIComponent(token);
+		var xhr = new XMLHttpRequest();
+		var body = 'username=' + encodeURIComponent(username) +
+				'&email=' + encodeURIComponent(email) +
+				'&password1=' + encodeURIComponent(password1) +
+				'&password2=' + encodeURIComponent(password2) +
+				'&csrfmiddlewaretoken=' + encodeURIComponent(token);
 
-			xhr.open("POST", form.action, true);
-			xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		xhr.open("POST", form.action, true);
+		xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
-			xhr.onreadystatechange = function () {
-				if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
-					if (xhr.responseText === 'success')
-						window.location.replace('')
-					else {
-						data = JSON.parse(JSON.parse(xhr.responseText));
-						Object.keys(data).forEach(function (k) {
-							Object.keys(data[k]).forEach(function (k2) {
-								toastWarning(data[k][k2]["message"]);
-							});
+		xhr.onreadystatechange = function () {
+			if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
+				if (xhr.responseText === 'success')
+					window.location.replace('')
+				else {
+					data = JSON.parse(JSON.parse(xhr.responseText));
+					Object.keys(data).forEach(function (k) {
+						Object.keys(data[k]).forEach(function (k2) {
+							toastWarning(data[k][k2]["message"]);
 						});
-					}
-				};
+					});
+				}
 			};
+		};
 
-			xhr.send(body);
-		});
-	</script>
-	{% endif %}
+		xhr.send(body);
+	});
+</script>
+{% endif %}
 
 </body>
 </html>

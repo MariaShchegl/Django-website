@@ -39,7 +39,9 @@ def index(request):
 # GET
 # isAuth
 def create(request):
-    pass
+    form = RecipeForm()
+    context = {'form': form}
+    return render(request, 'frontend/recipe_add.html', context)
 
 
 # Display the specified resource.
