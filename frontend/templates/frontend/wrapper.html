@@ -175,7 +175,7 @@
 							<div class="list-group">
 								{% load paging %}
 								{% for category in categories %}
-								<a href="?category={{ category.id }}" class='list-group-item {% if request.GET.category|add:"0" == category.id %}active{% endif %}'>
+								<a href="/?category={{ category.id }}" class='list-group-item {% if request.GET.category|add:"0" == category.id %}active{% endif %}'>
 									<i class="fa  fa-dot-circle-o"></i>
 									{{ category }}
 								</a>
@@ -317,14 +317,13 @@
 			if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
 				if (xhr.responseText === 'success')
 					window.location.replace('')
-				else {
-					data = JSON.parse(JSON.parse(xhr.responseText));
-					Object.keys(data).forEach(function (k) {
-						Object.keys(data[k]).forEach(function (k2) {
-							toastWarning(data[k][k2]["message"]);
-						});
+			}else if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 401){
+				data = JSON.parse(JSON.parse(xhr.responseText));
+				Object.keys(data).forEach(function (k) {
+					Object.keys(data[k]).forEach(function (k2) {
+						toastWarning(data[k][k2]["message"]);
 					});
-				}
+				})
 			};
 		};
 
@@ -364,14 +363,13 @@
 			if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
 				if (xhr.responseText === 'success')
 					window.location.replace('')
-				else {
-					data = JSON.parse(JSON.parse(xhr.responseText));
-					Object.keys(data).forEach(function (k) {
-						Object.keys(data[k]).forEach(function (k2) {
-							toastWarning(data[k][k2]["message"]);
-						});
+			}else if(xhr.readyState === XMLHttpRequest.DONE && xhr.status === 401){
+				data = JSON.parse(JSON.parse(xhr.responseText));
+				Object.keys(data).forEach(function (k) {
+					Object.keys(data[k]).forEach(function (k2) {
+						toastWarning(data[k][k2]["message"]);
 					});
-				}
+				})
 			};
 		};
 

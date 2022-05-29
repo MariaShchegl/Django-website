@@ -78,8 +78,8 @@
 				if (response.responseText === "success"){
             		window.location.replace('/account')
 				}else{
-            		data = JSON.parse(response);
-						Object.keys(data).forEach(function (k) {
+					data = JSON.parse(JSON.parse(response.responseText));
+					Object.keys(data).forEach(function (k) {
 						Object.keys(data[k]).forEach(function (k2) {
 							toastWarning(fields.get(k) + " " + data[k][k2]["message"]);
 						});
@@ -90,8 +90,8 @@
             	if (response.responseText === "success"){
             		window.location.replace('/account')
 				}else{
-            		data = JSON.parse(response);
-						Object.keys(data).forEach(function (k) {
+            		data = JSON.parse(JSON.parse(response.responseText));
+					Object.keys(data).forEach(function (k) {
 						Object.keys(data[k]).forEach(function (k2) {
 							toastWarning(fields.get(k) + " " + data[k][k2]["message"]);
 						});

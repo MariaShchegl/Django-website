@@ -3,11 +3,13 @@ from .forms import AuthForm, RegForm, RecipeForm, CommentForm
 from recipes.models import Category, Image, Comment, Recipe
 from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
 # Display a listing of the resource.
-# GET
+@api_view(['GET'])
 def index(request):
     categories = Category.objects.all().order_by('title')
     pop_posts = Recipe.objects.all()[:3]
@@ -36,8 +38,8 @@ def index(request):
 
 
 # Show the form for creating a new resource.
-# GET
-# isAuth
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def create(request):
     form = RecipeForm()
     context = {'form': form}
@@ -45,9 +47,9 @@ def create(request):
 
 
 # Display the specified resource.
-# GET
+@api_view(['GET'])
 def show(request, id=1):
-    categories = Category.objects.all()
+    categories = Category.objects.all().order_by('title')
     pop_posts = Recipe.objects.all()[:3]
 
     recipe = get_object_or_404(Recipe, id=id)
@@ -66,8 +68,8 @@ def show(request, id=1):
 
 
 # Show the form for editing the specified resource.
-# GET
-# isAuth
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def edit(request, id):
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
     form = RecipeForm(instance=recipe)
@@ -76,8 +78,8 @@ def edit(request, id):
 
 
 # Show account
-# GET
-# isAuth
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def account(request):
     recipe_list = Recipe.objects.filter(user=request.user.id)
     paginator = Paginator(recipe_list, 3)

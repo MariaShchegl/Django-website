@@ -4,7 +4,8 @@ from django.contrib.auth import login, logout
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import get_object_or_404
 from .models import Recipe, Image, Comment
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
 
 import logging
 import os
@@ -14,8 +15,8 @@ logger = logging.getLogger(__name__)
 # Create your views here.
 
 # Store a newly created resource in storage.
-# POST
-# isAuth
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def store(request):
     form = RecipeForm(data=request.POST)
     formIm = ImageForm(request.POST, request.FILES)
@@ -27,17 +28,16 @@ def store(request):
         if len(form.errors) > 0 and not form.is_valid():
             response = form.errors
             response.update(formIm.errors)
-            return JsonResponse(response.as_json(), safe=False)
+            return JsonResponse(response.as_json(), safe=False, status=400)
         elif len(form.errors) > 0:
-            return JsonResponse(form.errors.as_json(), safe=False)
+            return JsonResponse(form.errors.as_json(), safe=False, status=400)
         else:
-            return JsonResponse(formIm.errors.as_json(), safe=False)
+            return JsonResponse(formIm.errors.as_json(), safe=False, status=400)
 
 
 # Update the specified resource in storage.
-# PUT
-# isAuth
 @api_view(['PUT'])
+@permission_classes([IsAuthenticated])
 def update(request, id=0):
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
     form = RecipeForm(data=request.data, instance=recipe)
@@ -48,17 +48,19 @@ def update(request, id=0):
         if formIm.is_valid() and len(request.FILES):
             image_path = image.pathImage.path
             if os.path.exists(image_path):
-                os.remove(image_path)
+                try:
+                    os.remove(image_path)
+                except PermissionError:
+                    pass
             formIm.save()
         return HttpResponse('success')
     else:
-        return JsonResponse(form.errors.as_json(), safe=False)
+        return JsonResponse(form.errors.as_json(), safe=False, status=400)
 
 
 # Remove the specified resource from storage.
-# DELETE
-# isAuth
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def remove(request, id=0):
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
     image_path = recipe.image.pathImage.path
@@ -70,7 +72,7 @@ def remove(request, id=0):
 
 
 # Login user
-# POST
+@api_view(['POST'])
 def signin(request):
     form = AuthForm(data = request.POST)
     if form.is_valid():
@@ -78,10 +80,12 @@ def signin(request):
         login(request, user)
         return HttpResponse('success')
     else:
-        return JsonResponse(form.errors.as_json(), safe=False)
+        return JsonResponse(form.errors.as_json(), safe=False, status=401)
 
 
 # Add comment
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
 def add_comment(request, id=0):
     form = CommentForm(data=request.POST)
     if form.is_valid():
@@ -94,7 +98,7 @@ def add_comment(request, id=0):
 
 
 # Register user
-# POST
+@api_view(['POST'])
 def signup(request):
     form = RegForm(data = request.POST)
     if form.is_valid():
@@ -102,12 +106,12 @@ def signup(request):
         login(request, user)
         return HttpResponse('success')
     else:
-        return JsonResponse(form.errors.as_json(), safe=False)
+        return JsonResponse(form.errors.as_json(), safe=False, status=401)
 
 
 # Logout user
-# GET
-# isAuth
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def logout_my(request):
     logout(request)
     return redirect('index')

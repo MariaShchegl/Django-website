@@ -39,7 +39,8 @@
         var file = form.elements.pathImage.files[0];
         let token = form.elements.csrfmiddlewaretoken.value
 
-		console.log(file)
+		var fields = new Map();
+        fields.set("title", "Название").set("description", "Описание");
 
         if (title.trim().length === 0){
             toastWarning("Заполните поле названия");
@@ -69,11 +70,28 @@
 				xhr.setRequestHeader("X-CSRFToken", token);
 			},
             success: function (response) { // display success response
-                console.log(response.responseText);
-
+            	if (response.responseText === "success"){
+            		window.location.replace('/account')
+			    }else{
+					data = JSON.parse(JSON.parse(response.responseText));
+					Object.keys(data).forEach(function (k) {
+						Object.keys(data[k]).forEach(function (k2) {
+							toastWarning(fields.get(k) + " " + data[k][k2]["message"]);
+						});
+					});
+			    }
             },
-            error: function (response) {
-                console.log(response); // display error response
+            error: function (response) {	 // display error response
+				if (response.responseText === "success"){
+            		window.location.replace('/account')
+				}else{
+					data = JSON.parse(JSON.parse(response.responseText));
+					Object.keys(data).forEach(function (k) {
+						Object.keys(data[k]).forEach(function (k2) {
+							toastWarning(fields.get(k) + " " + data[k][k2]["message"]);
+						});
+					});
+				}
             }
         });
         /*var xhr = new XMLHttpRequest();
