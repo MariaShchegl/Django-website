@@ -31,11 +31,10 @@ def update(request, id):
         form.save()
         image = Image.objects.get(id=recipe.image.id)
         formIm = ImageForm(request.POST, request.FILES, instance=image)
-        if formIm.is_valid():
+        if formIm.is_valid() and len(request.FILES):
             image_path = image.pathImage.path
-            logging.debug(formIm)
-            #if os.path.exists(image_path):
-            #    os.remove(image_path)
+            if os.path.exists(image_path):
+                os.remove(image_path)
             formIm.save()
         return HttpResponse('success')
     else:

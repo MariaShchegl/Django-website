@@ -46,7 +46,7 @@ class RegForm(UserCreationForm):
 
 
 class RecipeForm(forms.ModelForm):
-    pathImage = forms.ImageField()
+    pathImage = forms.ImageField(required=False)
     title = forms.CharField(max_length=50)
     description = forms.CharField(widget=CKEditorUploadingWidget())
     pathImage.label = 'Изображение блюда'
