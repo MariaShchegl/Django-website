@@ -92,7 +92,7 @@ def signin(request):
         user = form.get_user()
         login(request, user)
 
-        logging.info('Success login ' + user)
+        logging.info('Success login ' + user.username)
         return HttpResponse('success')
     else:
         logging.warning('Error valid login')
@@ -109,7 +109,7 @@ def add_comment(request, id=0):
         recipe = get_object_or_404(Recipe, id=id)
         Comment.objects.create(user=user, recipe=recipe, data=form.data['data'])
 
-        logging.info('Success add comment(user: ' + user + ', recipe_id: ' + str(recipe.id) + ')')
+        logging.info('Success add comment(user: ' + user.username + ', recipe_id: ' + str(recipe.id) + ')')
         return redirect('/recipe/' + str(id))
     else:
         logging.warning('Error valid add comment')
@@ -124,7 +124,7 @@ def signup(request):
         user = form.save()
         login(request, user)
 
-        logging.info('Success register ' + user)
+        logging.info('Success register ' + user.username)
         return HttpResponse('success')
     else:
         logging.warning('Error valid register')
