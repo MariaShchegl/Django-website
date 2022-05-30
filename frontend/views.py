@@ -13,6 +13,7 @@ from rest_framework.permissions import IsAuthenticated
 def index(request):
     categories = Category.objects.all().order_by('title')
     pop_posts = Recipe.objects.all()[:3]
+
     if request.GET.get('category'):
         recipe_list = Recipe.objects.filter(categories=request.GET.get('category'))
     else:
@@ -23,6 +24,7 @@ def index(request):
         page_number = request.GET.get('page')
     else:
         page_number = 1
+
     page_obj = paginator.get_page(page_number)
     list_page = list(paginator.get_elided_page_range(page_number, on_each_side=1))
 

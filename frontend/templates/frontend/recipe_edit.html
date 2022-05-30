@@ -35,7 +35,7 @@
         e.preventDefault();
         let form = document.forms.form_recipe
         let title = form.elements.title.value
-        let description = form.elements.description.value
+        let description = CKEDITOR.instances.id_description.getData()
         var file = form.elements.pathImage.files[0];
         let token = form.elements.csrfmiddlewaretoken.value
 

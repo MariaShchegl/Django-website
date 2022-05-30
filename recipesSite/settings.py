@@ -15,6 +15,7 @@ from pathlib import Path
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -22,14 +23,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-jt3a@6s&5br-&vpepcy4x+lgs+pau91bo9)#=c-#^7wat#=91*'
-
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'db'
+]
 
-
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = False
+CSRF_COOKIE_SECURE = True
 # Application definition
 
 INSTALLED_APPS = [
@@ -89,10 +94,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'recipes_db',
-        'USER' : 'maria',
-        'PASSWORD' : 'pg123ad32j5g34a',
-        'HOST' : '127.0.0.1',
-        'PORT' : '5432',
+        'USER': 'maria',
+        'PASSWORD': 'pg123ad32j5g34a',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
     }
 }
 
