@@ -212,6 +212,16 @@ header {
 	border: 1px solid #dedede;
 }
 
+#form_recipe .text{
+	padding-right: 10px;
+}
+
+#form_recipe #id_title{
+	width: 100%;
+	border: 1px solid #dedede;
+	height: auto;
+	padding: 5px;
+}
 
 #create_account_form .text label {
 	display: none;

@@ -6,6 +6,9 @@ from ckeditor_uploader.widgets import CKEditorUploadingWidget
 from recipes.models import Recipe, Image, Comment
 
 class AuthForm(AuthenticationForm):
+    '''
+        Form for signin page.
+    '''
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -18,6 +21,10 @@ class AuthForm(AuthenticationForm):
 
 
 class RegForm(UserCreationForm):
+    '''
+        Form for signup page.
+    '''
+
     email = forms.EmailField(widget=forms.EmailInput)
 
     def __init__(self, *args, **kwargs):
@@ -46,6 +53,10 @@ class RegForm(UserCreationForm):
 
 
 class RecipeForm(forms.ModelForm):
+    '''
+        Form for model Recipe.
+    '''
+
     pathImage = forms.ImageField(required=False)
     title = forms.CharField(max_length=50)
     description = forms.CharField(widget=CKEditorUploadingWidget())
@@ -59,6 +70,10 @@ class RecipeForm(forms.ModelForm):
 
 
 class ImageForm(forms.ModelForm):
+    '''
+        Form for model Image.
+    '''
+
     pathImage = forms.ImageField()
 
     class Meta:
@@ -67,6 +82,10 @@ class ImageForm(forms.ModelForm):
 
 
 class CommentForm(forms.ModelForm):
+    '''
+        Form for model Comment.
+    '''
+
     data = forms.CharField(widget=forms.Textarea)
     data.label = 'Сообщение'
 

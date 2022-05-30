@@ -63,7 +63,7 @@
         formdata.append('title', title);
         formdata.append('description', description);
 
-        $.ajax({
+        /*$.ajax({
             url: form.action, // point to server-side URL
             dataType: 'json', // what to expect back from server
             cache: false,
@@ -98,24 +98,22 @@
 					});
 				}
             }
-        });
-        /*var xhr = new XMLHttpRequest();
+        });*/
+        var xhr = new XMLHttpRequest();
         var formdata = new FormData();
         formdata.append('pathImage', file);
         formdata.append("csrfmiddlewaretoken", token)
         formdata.append('title', title);
         formdata.append('description', description);
 
-        xhr.open("PUT", form.action, true);
-        //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.open("POST", form.action, true);
         xhr.setRequestHeader('X-CSRFToken', token);
-        xhr.setRequestHeader('Content-Type', false);//'multipart/form-data; boundary=something');
+        //xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=something');
 
         xhr.onreadystatechange = function () {
             if(xhr.readyState === XMLHttpRequest.DONE && (xhr.status === 200 || xhr.status === 302)) {
-                console.log(xhr.responseText)
                 if (xhr.responseText === 'success')
-                    window.location.replace('')
+                    window.location.replace('/account')
                 else {
                     data = JSON.parse(JSON.parse(xhr.responseText));
                     Object.keys(data).forEach(function (k) {
@@ -127,7 +125,7 @@
             };
         };
 
-        xhr.send(formdata);*/
+        xhr.send(formdata);
     });
 </script>
 {% endblock %}

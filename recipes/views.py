@@ -14,10 +14,13 @@ logger = logging.getLogger(__name__)
 
 # Create your views here.
 
-# Store a newly created resource in storage.
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def store(request):
+    '''
+        Store a newly created recipe in storage.
+    '''
+
     form = RecipeForm(data=request.POST)
     formIm = ImageForm(request.POST, request.FILES)
 
@@ -41,10 +44,15 @@ def store(request):
             return JsonResponse(formIm.errors.as_json(), safe=False, status=400)
 
 
-# Update the specified resource in storage.
 @api_view(['PUT'])
 @permission_classes([IsAuthenticated])
 def update(request, id=0):
+    '''
+        Update the specified recipe in storage.
+
+        id is the recipe identifier for update
+    '''
+
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
     form = RecipeForm(data=request.data, instance=recipe)
 
@@ -52,12 +60,15 @@ def update(request, id=0):
         form.save()
 
         image = Image.objects.get(id=recipe.image.id)
+        image_path = image.pathImage.path
         formIm = ImageForm(request.data, request.FILES, instance=image)
 
         if formIm.is_valid() and len(request.FILES):
-            image_path = image.pathImage.path
             if os.path.exists(image_path):
-                os.remove(image_path)
+                try:
+                    os.remove(image_path)
+                except PermissionError:
+                    pass
             formIm.save()
 
         logging.info('Success update (user: ' + request.user.username + ', recipe_id: ' + str(id) + ')')
@@ -67,10 +78,15 @@ def update(request, id=0):
         return JsonResponse(form.errors.as_json(), safe=False, status=400)
 
 
-# Remove the specified resource from storage.
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def remove(request, id=0):
+    '''
+        Remove the specified recipe from storage.
+
+        id is the recipe identifier for remove
+    '''
+
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
     image_path = recipe.image.pathImage.path
 
@@ -84,9 +100,12 @@ def remove(request, id=0):
     return redirect('account')
 
 
-# Login user
 @api_view(['POST'])
 def signin(request):
+    '''
+        Login user.
+    '''
+
     form = AuthForm(data = request.POST)
     if form.is_valid():
         user = form.get_user()
@@ -99,10 +118,15 @@ def signin(request):
         return JsonResponse(form.errors.as_json(), safe=False, status=401)
 
 
-# Add comment
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def add_comment(request, id=0):
+    '''
+        Add comment.
+
+        id is the recipe identifier for add comment
+    '''
+
     form = CommentForm(data=request.POST)
     if form.is_valid():
         user = request.user
@@ -116,9 +140,12 @@ def add_comment(request, id=0):
         return redirect('index')
 
 
-# Register user
 @api_view(['POST'])
 def signup(request):
+    '''
+        Register user.
+    '''
+
     form = RegForm(data=request.POST)
     if form.is_valid():
         user = form.save()
@@ -131,9 +158,12 @@ def signup(request):
         return JsonResponse(form.errors.as_json(), safe=False, status=401)
 
 
-# Logout user
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def logout_my(request):
+    '''
+        Logout user.
+    '''
+
     logout(request)
     return redirect('index')

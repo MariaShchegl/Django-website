@@ -1,0 +1,29 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=recipes_db
+      - POSTGRES_USER=maria
+      - POSTGRES_PASSWORD=pg123ad32j5g34a
+  web:
+    image: mariashchegl/django_maria
+    command: bash -c "
+      sleep 5 &&
+      python manage.py migrate &&
+      python manage.py loaddata dump.json &&
+      python manage.py runserver 0.0.0.0:8000 --insecure"
+    environment:
+      - DJANGO_DEBUG=True
+      - DJANGO_SECRET_KEY=by9m_i!$$-77hf9@$$nhrgg@hi4zo%d42w1ao+f4yq=*wgp6ucx4aga
+      - DB_HOST=db
+#    volumes:
+#      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    restart: always

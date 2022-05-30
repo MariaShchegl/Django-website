@@ -8,9 +8,15 @@ from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
-# Display a listing of the resource.
 @api_view(['GET'])
 def index(request):
+    '''
+        Display a listing of the ricipes.
+
+        show form signup/signin, sidebar (category,
+        popular posts), create pagination
+    '''
+
     categories = Category.objects.all().order_by('title')
     pop_posts = Recipe.objects.all()[:3]
 
@@ -39,18 +45,26 @@ def index(request):
         return render(request, 'frontend/index.html', context)
 
 
-# Show the form for creating a new resource.
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def create(request):
+    '''
+        Show the form for creating a new recipe.
+    '''
+
     form = RecipeForm()
     context = {'form': form}
     return render(request, 'frontend/recipe_add.html', context)
 
 
-# Display the specified resource.
 @api_view(['GET'])
 def show(request, id=1):
+    '''
+        Display the specified recipe.
+
+        id is the recipe identifier
+    '''
+
     categories = Category.objects.all().order_by('title')
     pop_posts = Recipe.objects.all()[:3]
 
@@ -69,20 +83,30 @@ def show(request, id=1):
         return render(request, 'frontend/recipe.html', context)
 
 
-# Show the form for editing the specified resource.
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def edit(request, id):
+    '''
+        Show the form for editing the specified recipe.
+
+        id is the recipe identifier
+    '''
+
     recipe = get_object_or_404(Recipe, id=id, user=request.user)
     form = RecipeForm(instance=recipe)
     context = {'form': form, 'recipe_id': id}
     return render(request, 'frontend/recipe_edit.html', context)
 
 
-# Show account
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def account(request):
+    '''
+        Show account.
+
+        account it is page users after signin
+    '''
+
     recipe_list = Recipe.objects.filter(user=request.user.id)
     paginator = Paginator(recipe_list, 3)
 
