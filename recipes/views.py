@@ -6,13 +6,24 @@ from django.shortcuts import get_object_or_404
 from .models import Recipe, Image, Comment
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
+from asgiref.sync import sync_to_async
 
 import logging
 import os
+import asyncio
 
 logger = logging.getLogger(__name__)
 
 # Create your views here.
+
+async def _create_recipe(image, form, request):
+    await sync_to_async(Recipe.objects.create)(
+        image=image,
+        description=form.data['description'],
+        title=form.data['title'],
+        user=request.user
+    )
+    return 0
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
@@ -26,7 +37,9 @@ def store(request):
 
     if form.is_valid() and len(request.FILES) and formIm.is_valid():
         image = formIm.save()
-        Recipe.objects.create(image=image, description=form.data['description'], title=form.data['title'], user=request.user)
+        #Recipe.objects.create(image=image, description=form.data['description'], title=form.data['title'], user=request.user)
+
+        asyncio.run(_create_recipe(image, form, request))
 
         logging.info('Success add recipe')
         return HttpResponse('success')

@@ -42,7 +42,7 @@ ALLOWED_HOSTS = [
 CSRF_TRUSTED_ORIGINS = ["https://django-mariashchegl.herokuapp.com"]
 
 SESSION_COOKIE_SECURE = True
-SECURE_SSL_REDIRECT = True if os.environ.get('SECURE_SSL_REDIRECT', '') == 'True' else False
+SECURE_SSL_REDIRECT = True if os.environ.get('SECURE_SSL_REDIRECT') == 'True' else False
 CSRF_COOKIE_SECURE = True
 # Application definition
 

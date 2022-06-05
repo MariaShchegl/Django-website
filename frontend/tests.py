@@ -40,20 +40,20 @@ class BaseTest(TestCase):
         print(response.status_code)
         self.assertEqual(response.status_code, 200)
 
-    '''def test_alter_recipe_wo_image(self):
+    def test_alter_recipe_wo_image(self):
         self.client.login(username='raphael', password='qaz@WSX3')
         data = {"title": 'Recipeasdf', 'description': 'some recipe there3'}
         response = self.client.put('/backend/update/2', data, format="multipart")
         print(response.status_code)
-        self.assertEqual(response.status_code, 200)'''
+        self.assertEqual(response.status_code, 200)
 
-    def test_recipe_with_image(self):
+    '''def test_recipe_with_image(self):
         self.client.login(username='raphael', password='qaz@WSX3')
         file = open('media/05272022192053blog-1.jpg', 'rb')
         data = {"title": 'Recipeasdf', 'description': 'some recipe there2', 'pathImage':file, 'user':self.user}
         response = self.client.put('/backend/update/3', data, format="multipart")
         print(response.status_code)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)'''
 
     def test_create_recipe(self):
         self.client.login(username='raphael', password='qaz@WSX3')
@@ -86,9 +86,9 @@ class BaseTest(TestCase):
         print(response.status_code)
         self.assertEqual(response.status_code, 403)
 
-    def test_access_authorized_user(self):
+    '''def test_access_authorized_user(self):
         self.client.login(username='raphael', password='qaz@WSX3')
         response = self.client.get('/account/')
         print(response.status_code)
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.status_code, 200)'''
 
